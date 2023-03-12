@@ -1,21 +1,47 @@
-# Cell segmentation using binarization, morphological operations, image filtrations  
+# Histology image correction / enhancement
 Name: Erik Matovič  
-Methods used: resampling(resizing image), noise removal by blurring(averaging, median, Gaussian and bilateral), thresholding(binary, otsu, adaptive, inrange), edge detection(Sobel, Laplacian, Canny), morphological operations(dilate, erode, closing, opening, distance transform, top hat, black hat, morphological gradient), inverting images, convolution, contour analysis, image filtration
+Methods used: 
 
 ## Assignment
-Load histology image from breast cancer dataset  - [image1](https://drive.google.com/file/d/15o6Dl25P6ern4JJkjArxpPdi8UPLcF6p/view), [image2](https://drive.google.com/file/d/1hHTTYJX6qyzY0BJbLQ21bx69Mj7LFrOv/view), [image3](https://drive.google.com/file/d/1UXCh_8nucjo5zA7-WqrJ_JNzmQkhO5am/view). 
-Eliminate noise and binarize the image using morphological operations and contour analysis. 
-Try to programmatically mark every cell and sum the total count. There are multiple solutions, use your imagination. Document each attempt, 
-even if it is unsuccessful ([documentation example](https://sites.google.com/stuba.sk/vgg/computer-vision/solution-training-task?authuser=0)).
-Use [OpenCV documentation](https://docs.opencv.org/4.7.0/).
-Optional Datasets: [Beer bubbles](https://drive.google.com/file/d/1jg_o5izpma-RUc8296SOjPau5ypruWnE/view), [red blood cells](https://drive.google.com/drive/folders/1FThJGItE_jSzne2LgcStj9Q4sLILPDWj)
-Choose at least 2 images (of your choice) for this Assignment
+### Dataset  
+Dataset link: [link](https://drive.google.com/file/d/11_y1TZOKQb7xl4esCCjYcM9o4uv7w5pC/view) (Histology nuclei)  
+
+[H&M](https://drive.google.com/file/d/1o7PdpZfsnh7O4xbbwNt3Y7zyPhsZWW3J/view) and [P63](https://drive.google.com/file/d/1a70V9PDNdzAV4FDyEVaqV6ZbUfFflzA6/view) registered images.  
+
+The stained colors of the tissue components are popularly used as features for image analysis. Dataset contain stained histology images. Variations in the staining condition of the histology slides could however negatively impact the accuracy of the analysis.   
+
+The assignment goal is to experiment with the histology images and try to correct the color distribution of the provided dataset.  
+
+### Experiment with the following tasks for image correction
+ - Histogram computation (visualize histogram for each color model used)
+ - Histogram equalization - for multiple color models (Grayscale, RGB, YCbCr, HSV, XYZ, Lab). Make assumption how to properly correct the image using following color models and document the steps with your reasoning.
+ - Gamma correction (hint: pow)
+ - **Optional:** Source -> Target color correction using eCDF (effective Cummulative Distribution Function) and linear interpolation
+   - Target is an image you selected from the dataset. We want to change the color distribution of other (sources) images to the target one
+   - for RGB and YCbCr only
+
+### Experiment with the following tasks for image enhancement
+ - Segmentation utilizing the color information (Lab color model)
+   - Make sure your Lab conversion is in correct data range 
+   - Select the small part of the image containing only nuclei and compute its Lab color model (target) - average L / a / b values
+   - Compute delta Lab - difference image between the input and the target
+     - Hint how to compute difference in the slides from lecture
+     - Visualize
+   - Use the obtained difference image and try to segment nuclei by thresholding
+ - Use your knowledge of local descriptors to detect and localize image patch within the larger image from following data - [link](https://drive.google.com/file/d/10oNHED7BGrcYomKd3Cn5J1ZKQuQ9TR5d/view)
+   - Experiment with feature detectors: SIFT, FAST, Harris
+   - Experiment with feature descriptors: SIFT, SURF, ORB
+   - Compute homography matrix and localize your image patch
+     - Find the best combination of detection & description for your task
+
 
 ## Usage
 To run Jupyter Notebook, you need OpenCV and matplotlib. You can install them using pip:  
 ```bash
 pip install opencv-python matplotlib
 ```
+
+[OpenCV documentation](https://docs.opencv.org/4.7.0/)
 
 ## Solution
 ### 1. Load image and convert to grayscale
