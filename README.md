@@ -54,6 +54,26 @@ Original images:
 </p>
 
 
+Noise removal with blurring by bilateral filtering:  
+```python3
+img1_bilateral = cv2.bilateralFilter(src=img1_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+
+img2_bilateral = cv2.bilateralFilter(src=img2_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+
+img3_bilateral = cv2.bilateralFilter(src=img3_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+
+img4_bilateral = cv2.bilateralFilter(src=img4_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+
+img5_bilateral = cv2.bilateralFilter(src=img5_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+
+img6_bilateral = cv2.bilateralFilter(src=img6_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
+```
+
+<p align="center">
+	<img src="./outputs/bilateral.png">
+</p>
+
+
 ### 2. Image correction
 Histogram computation (visualize histogram for each color model used)
 
