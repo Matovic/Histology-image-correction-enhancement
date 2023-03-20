@@ -55,20 +55,6 @@ Original images:
 
 
 Noise removal with blurring by bilateral filtering:  
-```python3
-img1_bilateral = cv2.bilateralFilter(src=img1_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-
-img2_bilateral = cv2.bilateralFilter(src=img2_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-
-img3_bilateral = cv2.bilateralFilter(src=img3_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-
-img4_bilateral = cv2.bilateralFilter(src=img4_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-
-img5_bilateral = cv2.bilateralFilter(src=img5_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-
-img6_bilateral = cv2.bilateralFilter(src=img6_resize, d=10, sigmaColor=100, sigmaSpace=100, borderType=cv2.BORDER_DEFAULT)
-```
-
 <p align="center">
 	<img src="./outputs/bilateral.png">
 </p>
@@ -78,14 +64,6 @@ img6_bilateral = cv2.bilateralFilter(src=img6_resize, d=10, sigmaColor=100, sigm
 Histogram computation (visualize histogram for each color model used) using calcHist():
 
 ```python3
-# make list of images
-images = [img1_bilateral, img2_bilateral, img3_bilateral, 
-          img4_bilateral, img5_bilateral, img6_bilateral]
-
-# indexes for subplots
-index1,index2 = 0, 0
-
-# bgr color model
 bgr_model = ('b', 'g', 'r')
 
 # iterate through the list of images
@@ -95,13 +73,12 @@ for img in images:
         # calculate a histogram of each color model for each image
         histr = cv2.calcHist(images=[img], channels=[i], mask=None, histSize=[256], ranges=[0,256], accumulate=False)
         # add to the subplot
-        axarr[index1][index2].plot(histr, color=col)
+        axarr[plt_index].plot(histr, color=col)
     # row iterate
-    index2 += 1
+    plt_index += 1
     # if its out of bound move a row
-    if index2 > 2:
-        index1 += 1
-        index2 = 0
+    if plt_index > 1:
+        plt_index = 0
 ```
 
 <p align="center">

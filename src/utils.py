@@ -5,7 +5,8 @@ A collection of Python functions and classes
 
 import cv2
 import numpy as np
-from typing import Any, Tuple
+from typing import Any, Tuple, List
+from matplotlib import pyplot as plt
 
 
 __author__ = "Erik Matovic"
@@ -13,6 +14,58 @@ __version__ = "1.0"
 __email__ = "xmatovice@stuba.sk"
 __status__ = "Development"
 
+
+def plt_img(img1: cv2.Mat, img2: cv2.Mat) -> None:
+    """
+    Plot for 2 images
+    """
+    plt.figure()
+    f, axarr = plt.subplots(1,2)
+    f.set_size_inches(18.5, 10.5)
+    f.set_dpi(100)
+
+    axarr[0].imshow(img1, cmap='gray')
+    axarr[1].imshow(img2, cmap='gray')
+
+    axarr[0].set_title('H&M')
+    axarr[1].set_title('P63')
+
+    axarr[0].axis('off')
+    axarr[1].axis('off')
+
+    plt.show()
+
+
+def calc_histogram_show(images: List, model: List) -> None:
+    """
+    :param images: List of images for histogram calculation
+    :param model: List of used color model
+    """
+    plt.figure()
+    f, axarr = plt.subplots(1,2)
+    f.set_size_inches(18.5, 10.5)
+    f.set_dpi(100)
+
+    # indexes for subplots
+    plt_index = 0
+
+    # iterate through the list of images
+    for img in images:
+        # iterate through the colors of the BGR model
+        for i, col in enumerate(model):
+            # calculate a histogram of each color model for each image
+            histr = cv2.calcHist(images=[img], channels=[i], mask=None, histSize=[256], ranges=[0, 1], accumulate=False)
+            # add to the subplot
+            axarr[plt_index].plot(histr, color=col)
+        # row iterate
+        plt_index += 1
+        # if its out of bound move a row
+        if plt_index > 1:
+            plt_index = 0
+
+    axarr[0].set_title('H&M')
+    axarr[1].set_title('P63')
+    plt.show()
 
 def show_img(img: cv2.Mat, txt: str) -> None:
     """
