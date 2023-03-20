@@ -15,7 +15,26 @@ __email__ = "xmatovice@stuba.sk"
 __status__ = "Development"
 
 
-def plt_img(img1: cv2.Mat, img2: cv2.Mat) -> None:
+def gamma_coorection(img: cv2.Mat, gamma:float) -> cv2.Mat:
+    """
+    Gamma correction
+    """
+    lookUpTable = np.empty((1,256), np.uint8)
+    for i in range(256):
+        lookUpTable[0, i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
+    return cv2.LUT(img, lookUpTable)
+
+
+def equalize_hist(R: cv2.Mat, G: cv2.Mat, B: cv2.Mat) -> cv2.Mat:
+    output1_R = cv2.equalizeHist(R)
+    output1_G = cv2.equalizeHist(G)
+    output1_B = cv2.equalizeHist(B)
+    
+    # return merged image
+    return cv2.merge((output1_R, output1_G, output1_B))
+
+
+def plt_img(img1: cv2.Mat, img2: cv2.Mat, title1: str='H&M', title2: str='P63') -> None:
     """
     Plot for 2 images
     """
@@ -27,8 +46,8 @@ def plt_img(img1: cv2.Mat, img2: cv2.Mat) -> None:
     axarr[0].imshow(img1, cmap='gray')
     axarr[1].imshow(img2, cmap='gray')
 
-    axarr[0].set_title('H&M')
-    axarr[1].set_title('P63')
+    axarr[0].set_title(title1)
+    axarr[1].set_title(title2)
 
     axarr[0].axis('off')
     axarr[1].axis('off')
