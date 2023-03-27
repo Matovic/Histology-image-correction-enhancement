@@ -54,12 +54,6 @@ Original images:
 </p>
 
 
-Noise removal with blurring by bilateral filtering:  
-<p align="center">
-	<img src="./outputs/bilateral.png">
-</p>
-
-
 ### 2. Image correction
 Histogram computation (visualize histogram for each color model used) using calcHist():
 
@@ -85,7 +79,38 @@ for img in images:
 	<img src="./outputs/histogram.png">
 </p>
 
+Histogram equalization:  
+```python3
+img_hm_rgb = cv2.cvtColor(img_hm, cv2.COLOR_BGR2RGB)
 
+(hm_r, hm_g, hm_b) = cv2.split(img_hm_rgb)
+
+output1_R = cv2.equalizeHist(hm_r)
+output1_G = cv2.equalizeHist(hm_g)
+output1_B = cv2.equalizeHist(hm_b)
+
+equ_h = cv2.merge((output1_R, output1_G, output1_B))
+
+plt_img(img_hm_rgb, equ_h, title2='equalizeHist')
+```
+<p align="center">
+	<img src="./outputs/equalization.png">
+</p>
+
+Gamma correction:  
+```python3
+def gamma_coorection(img: cv2.Mat, gamma:float) -> cv2.Mat:
+    """
+    Gamma correction
+    """
+    lookUpTable = np.empty((1,256), np.uint8)
+    for i in range(256):
+        lookUpTable[0, i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
+    return cv2.LUT(img, lookUpTable)
+```
+<p align="center">
+	<img src="./outputs/gamma.png">
+</p>
 
 ### 3. Image enhancement
 Segmentation utilizing the color information (Lab color model)
@@ -97,6 +122,8 @@ Segmentation utilizing the color information (Lab color model)
    - Use the obtained difference image and try to segment nuclei by thresholding
 
 
-## Conclusion  
-TO DO
+Dataset
+<p align="center">
+	<img src="./outputs/dataset.png">
+</p>
 
