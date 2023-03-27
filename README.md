@@ -125,10 +125,7 @@ def gamma_coorection(img: cv2.Mat, gamma:float) -> cv2.Mat:
     """
     Gamma correction
     """
-    lookUpTable = np.empty((1,256), np.uint8)
-    for i in range(256):
-        lookUpTable[0, i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
-    return cv2.LUT(img, lookUpTable)
+    return pow(img, 1/gamma)
 ```
 <p align="center">
 	<img src="./outputs/gamma.png">
