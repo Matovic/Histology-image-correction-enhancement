@@ -181,7 +181,7 @@ kp, des = orb.compute(img_original_gray, kp)
 img_original_orb = cv2.drawKeypoints(img_original_gray, kp, None, color=(0,255,0), flags=0)
 ```  
 
-Compute homography matrix and localize your image patch using ORB. We can see that matching is all over the place. The green part of the image is roughly location of the patch.
+Compute homography matrix and localize your image patch using ORB. We can see that matching is all over the place, because patch is also scaled, so we need rotated-invariant and scaled-invariant method such as SIFT. The green part of the image is roughly location of the patch.
 
 <p align="center">
 	<img src="./outputs/ORB.png">
